@@ -1,0 +1,13 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    PAISES VARCHAR(30) := 'Brasil';
+    
+BEGIN
+ SELECT NOM_PAIS INTO PAISES from PAIS A 
+    JOIN ESTADO B
+    on (A.COD_PAIS=B.COD_PAIS)
+    WHERE A.COD_PAIS = 2
+    AND B.COD_ESTADO = 6;
+    dbms_output.put_line(PAISES);
+END;
