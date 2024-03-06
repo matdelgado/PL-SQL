@@ -1,5 +1,3 @@
-
-
 select * from estado
 select * from cidade
 select * from tipo_endereco
