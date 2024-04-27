@@ -1,0 +1,26 @@
+create or replace PROCEDURE PRC_VALIDA_TOTAL_PEDIDO (
+    p_cod_pedido IN NUMBER)
+IS
+    v_total_pedido NUMBER;
+    v_quantidade NUMBER;
+    v_preco_unitario NUMBER;
+    v_desconto NUMBER;
+    v_soma_itens NUMBER := 0;
+BEGIN
+    FOR PEDIDO IN (SELECT total FROM pedidos WHERE codigo = p_codigo_pedido) LOOP
+        v_total_pedido := pedido.total;
+    END LOOP;
+
+    FOR item IN (SELECT quantidade, preco_unitario, desconto FROM itens_pedido WHERE codigo_pedido = p_codigo_pedido) LOOP
+        v_quantidade := item.quantidade;
+        v_preco_unitario := item.preco_unitario;
+        v_desconto := item.desconto;
+        v_soma_itens := v_soma_itens + (v_quantidade * v_preco_unitario) - v_desconto;
+    END LOOP;
+
+    IF v_soma_itens = v_total_pedido THEN
+        p_retorno := 'pedido ok';
+    ELSE
+        p_retorno := 'total dos itens não coincide com valor total do pedido';
+    END IF;
+END;
